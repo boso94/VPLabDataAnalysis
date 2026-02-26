@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Statistical Analysis</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-top">
+      <a class="back-link" href="index.html">← Back</a>
+      <div class="brand">VP Lab - Statistical Analysis</div>
+    </div>
+    <div class="subtitle">Upload CSV · pick columns · run the analysis</div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>1. Upload CSV</h2>
+      <input type="file" id="file-input" accept=".csv" />
+      <p class="hint">Data stays in your browser. Separator autodetected.</p>
+    </section>
+
+    <section class="card" id="config-section" hidden>
+      <h2>2. Select columns</h2>
+      <div class="grid">
+        <label>Condition column
+          <select id="condition-select"></select>
+        </label>
+        <label>Condition values (click to toggle)
+          <div id="conditions-list" class="metrics-list"></div>
+        </label>
+        <label>Metrics (click to toggle)
+          <div id="metrics-list" class="metrics-list"></div>
+        </label>
+        <label>Multiplier
+          <input type="number" id="multiplier-input" min="1" value="1" />
+        </label>
+      </div>
+      <button id="analyze-btn">Run analysis</button>
+      <div id="loading" hidden>⚙️ Loading Pyodide & packages...</div>
+    </section>
+
+    <section class="card" id="results" hidden>
+      <h2>Results</h2>
+      <div id="results-grid" class="results-grid"></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
