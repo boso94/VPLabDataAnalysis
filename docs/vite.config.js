@@ -20,6 +20,7 @@ function copyStaticFiles() {
 }
 
 export default defineConfig({
+  base: './',
   root: '.',
   publicDir: false,
   build: {
