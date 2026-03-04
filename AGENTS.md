@@ -185,7 +185,7 @@ cd docs && npm run test:e2e
 ## Dependencies
 
 - **Python**: pandas, scipy, statsmodels, scikit-posthocs, pytest
-- **Frontend**: Pyodide (loaded from CDN), Chart.js
+- **Frontend**: Pyodide (loaded from CDN), Chart.js, @sgratzl/chartjs-chart-boxplot
 - **Dev**: Vite, ESLint, Playwright
 
 ## Notes for Agents
