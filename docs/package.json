@@ -15,6 +15,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "@sgratzl/chartjs-chart-boxplot": "^4.4.5",
     "chart.js": "^4.4.2"
   }
 }

@@ -18,8 +18,21 @@
   <main>
     <section class="card">
       <h2>1. Upload CSV</h2>
-      <input type="file" id="file-input" accept=".csv" />
+      <div id="drop-zone" class="drop-zone">
+        <p>Drag & drop CSV file here</p>
+        <p class="hint">or click to browse</p>
+        <input type="file" id="file-input" accept=".csv" hidden />
+      </div>
       <p class="hint">Data stays in your browser. Separator autodetected.</p>
+      <div id="file-preview" class="file-preview" hidden>
+        <div class="preview-header">
+          <p class="preview-info"></p>
+          <button id="reset-btn" class="secondary-btn small-btn">Clear file</button>
+        </div>
+        <div class="preview-table-wrap">
+          <table id="preview-table"></table>
+        </div>
+      </div>
     </section>
 
     <section class="card" id="config-section" hidden>
@@ -43,7 +56,10 @@
     </section>
 
     <section class="card" id="results" hidden>
-      <h2>Results</h2>
+      <div class="results-header">
+        <h2>Results</h2>
+        <button id="export-btn" class="secondary-btn">Export CSV</button>
+      </div>
       <div id="results-grid" class="results-grid"></div>
     </section>
   </main>

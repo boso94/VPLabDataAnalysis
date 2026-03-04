@@ -1,3 +1,8 @@
+import { Chart, registerables } from 'chart.js';
+import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
+
+Chart.register(...registerables, BoxPlotController, BoxAndWiskers);
+
 /**
  * Render module - handles result display
  */
@@ -194,6 +199,9 @@ export function renderResults(results) {
     card.innerHTML = `
       <h3><span>${metric}</span>${badge}</h3>
       ${res.error ? `<div class="test-row">${res.error}</div>` : ''}
+      <div class="chart-container">
+        <canvas id="chart-${metric.replace(/[^a-z0-9]/gi, '_')}"></canvas>
+      </div>
       ${renderDescriptive(res)}
       ${renderShapiro(res)}
       ${renderTest(res)}
@@ -201,8 +209,90 @@ export function renderResults(results) {
       ${renderApa(res, metric)}
     `;
     resultsGrid.appendChild(card);
+    renderChart(res, metric);
   });
 
   const resultsSection = document.getElementById('results');
   if (resultsSection) resultsSection.hidden = false;
+}
+
+/**
+ * Render a box plot for a metric
+ * @param {Object} res - Analysis result for one metric
+ * @param {string} metric - Metric name
+ */
+function renderChart(res, metric) {
+  if (res.error || !res.descriptive) return;
+
+  const ctx = document.getElementById(`chart-${metric.replace(/[^a-z0-9]/gi, '_')}`).getContext('2d');
+  const conditions = Object.keys(res.descriptive.count);
+  
+  const boxData = conditions.map(cond => ({
+    min: res.descriptive.min[cond],
+    q1: res.descriptive['25%'][cond],
+    median: res.descriptive['50%'][cond],
+    q3: res.descriptive['75%'][cond],
+    max: res.descriptive.max[cond],
+    mean: res.descriptive.mean[cond]
+  }));
+
+  new Chart(ctx, {
+    type: 'boxplot',
+    data: {
+      labels: conditions,
+      datasets: [{
+        label: metric,
+        backgroundColor: 'rgba(56, 189, 248, 0.2)',
+        borderColor: '#38bdf8',
+        borderWidth: 1,
+        outlierColor: '#999999',
+        padding: 10,
+        itemRadius: 0,
+        data: boxData
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: (context) => {
+              const d = context.raw;
+              return [
+                `Max: ${d.max}`,
+                `Q3: ${d.q3}`,
+                `Median: ${d.median}`,
+                `Mean: ${d.mean}`,
+                `Q1: ${d.q1}`,
+                `Min: ${d.min}`
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: '#94a3b8'
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          },
+          ticks: {
+            color: '#94a3b8'
+          }
+        }
+      }
+    }
+  });
 }
