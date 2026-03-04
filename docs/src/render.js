@@ -242,10 +242,12 @@ function renderChart(res, metric) {
       labels: conditions,
       datasets: [{
         label: metric,
-        backgroundColor: 'rgba(56, 189, 248, 0.2)',
-        borderColor: '#38bdf8',
-        borderWidth: 1,
-        outlierColor: '#999999',
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        borderColor: '#ffffff',
+        borderWidth: 1.5,
+        medianColor: '#e63946',
+        outlierColor: '#e63946',
+        outlierRadius: 3,
         padding: 10,
         itemRadius: 0,
         data: boxData
@@ -259,6 +261,11 @@ function renderChart(res, metric) {
           display: false
         },
         tooltip: {
+          backgroundColor: '#111',
+          titleFont: { family: 'Syne', size: 14 },
+          bodyFont: { family: 'Public Sans', size: 12 },
+          cornerRadius: 0,
+          displayColors: false,
           callbacks: {
             label: (context) => {
               const d = context.raw;
@@ -278,10 +285,11 @@ function renderChart(res, metric) {
         y: {
           beginAtZero: false,
           grid: {
-            color: 'rgba(255, 255, 255, 0.1)'
+            color: 'rgba(255, 255, 255, 0.05)'
           },
           ticks: {
-            color: '#94a3b8'
+            color: '#888888',
+            font: { family: 'Public Sans', size: 11 }
           }
         },
         x: {
@@ -289,7 +297,8 @@ function renderChart(res, metric) {
             display: false
           },
           ticks: {
-            color: '#94a3b8'
+            color: '#ffffff',
+            font: { family: 'Syne', weight: 'bold', size: 12 }
           }
         }
       }
